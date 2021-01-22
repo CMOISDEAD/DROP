@@ -1,5 +1,16 @@
-{{#each champions}}
-    <p>
-        {{champions.id}}
-    </p>
-{{/each}}
+<div class="container mt-3">
+    <div class="row">
+        {{#each name}}
+            <div class="card col-md-auto card-style m-1 text-center">
+                <div class="card-title">
+                    <img src="http://ddragon.leagueoflegends.com/cdn/11.1.1/img/champion/{{this}}.png" alt="{{this}}" class="mt-2">
+                </div>
+                <div class="card-body">
+                    <a href="/champs/{{this}}">
+                        {{this}}
+                    </a>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</div>

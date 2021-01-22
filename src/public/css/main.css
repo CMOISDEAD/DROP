@@ -25,5 +25,8 @@ body{
 .summoner{
     height: 70vh;
 }
+.card-style{
+    width: 16rem;
+}
 
 
