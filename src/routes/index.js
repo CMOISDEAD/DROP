@@ -2,53 +2,77 @@ const path = require('path')
 const express = require('express')
 const router = express.Router()
 const { Kayn } = require('kayn')
+const LeagueAPIInit = require('leagueapiwrapper')
 const myConfig = require('../configs/kaynConfig')
 const env = require('node-env-file')
 
 // Initialization
 env(path.join(__dirname, '../.env'))
 const kayn = Kayn(process.env.KEY)(myConfig)
+const LeagueAPI = new LeagueAPIInit(process.env.KEY, Region.NA)
 
 // Global variables
-const listaCampeones = []
+var listaCampeones = []
+var listaCampeonesRotacion = []
+var listDataByIdWithParentAsId;
 
+// Functions
 requestSummoner = (data) => {
     return kayn.Summoner.by.name(data)
         .then(res => res)
         .catch(error => {
             return 'null'
-            console.error(error)
         })
 }
 
 requestChamps = () => {
     kayn.DDragon.Champion.list()
-    .version('11.1.1')
-    .then(res => {
-        const champions = res.data
-        for (const champs in champions) {
-            if (champions.hasOwnProperty.call(champions, champs)) {
-                listaCampeones.push(champs)
+        .version('11.1.1')
+        .then(res => {
+            const champions = res.data
+            for (const champs in champions) {
+                if (champions.hasOwnProperty.call(champions, champs)) {
+                    listaCampeones.push(champs)
+                }
             }
-        }
-    })
-    .catch(err => console.error(err))
+        })
+        .catch(err => console.error(err))
 }
 
-requestChamps()
+rotationChamps = () => {
+    LeagueAPI.getFreeChampionRotation()
+        .then(res => {
+            listaCampeonesRotacion = res.freeChampionIds
+        })
+        .catch(console.error);
+}
 
+dev = () => {
+    kayn.DDragon.Champion.listDataByIdWithParentAsId()
+        .then(res => {
+            listDataByIdWithParentAsId = res.data
+        })
+        .catch(err => console.error(err))
+}
+
+dev()
+requestChamps()
+rotationChamps()
+
+// Routes
 router.get("/", (req, res) => {
     res.render("pages/home");
 });
 
-router.get('/champs', async (req, res) => {    
+router.get('/champs', async (req, res) => {
     const alterna = {
-        name : listaCampeones
+        name: listaCampeones,
+        rotacion: listaCampeonesRotacion
     }
     res.render('pages/champs', alterna)
 })
 
-router.get('/champs/:name', (req, res)=>{
+router.get('/champs/:name', (req, res) => {
     const { name } = req.params
     const championToSend = {
         name
