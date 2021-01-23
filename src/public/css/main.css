@@ -28,5 +28,24 @@ body{
 .card-style{
     width: 16rem;
 }
-
+.rotation-img{
+    width: 5vw;
+    height: auto;
+}
+.rotation-img:hover{
+    transition: all .5s ;
+}
+.style{
+    width: 8rem;
+}
+.icon-name{
+    margin-top: -0vh;
+    margin-left: 2vw;
+    z-index: 989999;
+}
+.champ-wallpaper{
+    width: 40vw;
+    height: auto;
+    z-index: 0;
+}
 

@@ -12,9 +12,16 @@ const kayn = Kayn(process.env.KEY)(myConfig)
 const LeagueAPI = new LeagueAPIInit(process.env.KEY, Region.NA)
 
 // Global variables
+const versionLive = '11.2.1'
+
 var listaCampeones = []
 var listaCampeonesRotacion = []
 var listDataByIdWithParentAsId;
+var listaCampeonesRotacionNombres = []
+
+let personalChampStats = []
+let personalChampData = []
+
 
 // Functions
 requestSummoner = (data) => {
@@ -27,7 +34,7 @@ requestSummoner = (data) => {
 
 requestChamps = () => {
     kayn.DDragon.Champion.list()
-        .version('11.1.1')
+        .version(versionLive)
         .then(res => {
             const champions = res.data
             for (const champs in champions) {
@@ -51,6 +58,30 @@ dev = () => {
     kayn.DDragon.Champion.listDataByIdWithParentAsId()
         .then(res => {
             listDataByIdWithParentAsId = res.data
+            for (const id in listaCampeonesRotacion) {
+                var indicador = listaCampeonesRotacion[id]
+                listaCampeonesRotacionNombres.push(listDataByIdWithParentAsId[indicador].key)
+            }
+        })
+        .catch(err => console.error(err))
+}
+
+championStats = (name) => {
+    kayn.DDragon.Champion.list()
+        .version(versionLive)
+        .then(res => {
+            personalChampStats.push(res.data[name].stats)
+        })
+        .catch(err => console.error(err))
+}
+
+championInfo = (name) => {
+    kayn.DDragon.Champion.list()
+        .version(versionLive)
+        .then(res => {
+            personalChampData.push(res.data[name].title)
+            personalChampData.push(res.data[name].blurb)
+            personalChampData.push(res.data[name].tags[0])
         })
         .catch(err => console.error(err))
 }
@@ -67,17 +98,32 @@ router.get("/", (req, res) => {
 router.get('/champs', async (req, res) => {
     const alterna = {
         name: listaCampeones,
-        rotacion: listaCampeonesRotacion
+        rotacion: listaCampeonesRotacionNombres
     }
     res.render('pages/champs', alterna)
 })
 
-router.get('/champs/:name', (req, res) => {
+router.get('/champs/:name', async (req, res) => {
     const { name } = req.params
+    /*
+        posicion uno : title
+        posicion dos : blurb,
+        posicion tres : tags,
+        
+    */
+    championStats(name)
+    championInfo(name)
     const championToSend = {
-        name
+        name,
+        title: personalChampData[0],
+        blurb: personalChampData[1],
+        tag: personalChampData[2],
+        stats: personalChampStats[0]
     }
     res.render('pages/champInfo', championToSend)
+
+    personalChampData = []
+    personalChampStats = []
 })
 
 router.get('/summoner', (req, res) => {

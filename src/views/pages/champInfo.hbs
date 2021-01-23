@@ -1,1 +1,49 @@
-<h1>{{name}}</h1>
+{{!-- http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_0.jpg --}}
+
+<div class="container bg-white ">
+    <div class="text-center">
+        <img src="http://ddragon.leagueoflegends.com/cdn/img/champion/splash/{{name}}_0.jpg" alt="{{name}}"
+            class="champ-wallpaper">
+    </div>
+    <div class="icon-name ">
+        <div class="card style ">
+            <img src="http://ddragon.leagueoflegends.com/cdn/11.2.1/img/champion/{{name}}.png" alt="{{name}}"
+                class="card-img-top">
+            <div class="card-body text-center">
+                {{name}}
+            </div>
+        </div>
+        <div class="">
+            <p class="h3">
+                title
+            </p>
+            <p>
+                {{title}}
+            </p>
+            <p class="h3">
+                lore
+            </p>
+            <p>
+                {{blurb}}
+            </p>
+            <p class="h3">
+                type
+            </p>
+            <p>
+                {{tag}}
+            </p>
+        </div>
+    </div>
+    <div class="stats text-center container bg-white">
+        <p class="h3">stats</p>
+        <div class="">
+            {{#each stats}}
+            <p>
+                {{this}}
+            </p>
+            {{/each}}
+        </div>
+    </div>
+
+
+</div>
