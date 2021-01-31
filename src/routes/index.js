@@ -57,7 +57,7 @@ rotationChamps = () => {
 dev = () => {
     kayn.DDragon.Champion.listDataByIdWithParentAsId()
         .then(res => {
-            listDataByIdWithParentAsId = res.data
+            listDataByIdWithParentAsId = res.data            
             for (const id in listaCampeonesRotacion) {
                 var indicador = listaCampeonesRotacion[id]
                 listaCampeonesRotacionNombres.push(listDataByIdWithParentAsId[indicador].key)
@@ -86,9 +86,9 @@ championInfo = (name) => {
         .catch(err => console.error(err))
 }
 
-dev()
 requestChamps()
 rotationChamps()
+dev()
 
 // Routes
 router.get("/", (req, res) => {

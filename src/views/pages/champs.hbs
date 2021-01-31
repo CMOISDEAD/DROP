@@ -1,13 +1,20 @@
 <div class="container mt-3">
-    <div class="rotation row  mx-auto">
-        <div class="col-md-5 text-center bg-white m-5 container">
-            <p>Last champion</p>
+    <div class="rotation row  ">
+        <div class="col-md-5  bg-white m-5 container">
+            <p class="h3 text-center">Last champion</p>
+            <div class="">
+                <img src="http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Viego_0.jpg  " alt="Viego"
+                    class="img-thumbnail mb-1">
+            </div>
         </div>
-        <div class="col-md-5 bg-white m-5 container">
+        <div class="col-md-5 bg-white text-center m-5 container">
+            <p class="h3 ">
+                Rotation champs
+            </p>
             {{#each rotacion}}
             <a href="/champs/{{this}}">
                 <img src="http://ddragon.leagueoflegends.com/cdn/11.2.1/img/champion/{{this}}.png" alt="{{this}}"
-                    class="rotation-img m-2"></a>
+                    class="rotation-img m-2 "></a>
             {{/each}}
         </div>
     </div>
