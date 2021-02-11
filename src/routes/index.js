@@ -86,8 +86,8 @@ championInfo = (name) => {
         .catch(err => console.error(err))
 }
 
-requestChamps()
 rotationChamps()
+requestChamps()
 dev()
 
 // Routes
